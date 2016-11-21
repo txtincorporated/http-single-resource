@@ -3,9 +3,9 @@ const url = require('url');
 const fs = require('fs');
 const sander = require('sander');
 const path = require('path');
-const handlers = require('./requestHandlers');
+const handlers = require('./lib/requestHandlers');
 
-function start(request, method) {
+function server(request, method) {
 
   function onRequest(request, response) {
     request.pathname = url.parse(request.url).pathname; 
@@ -57,7 +57,7 @@ function start(request, method) {
       handlers.put(request, response);
       break;
     case 'DELETE':
-      handlers.del(request, response)
+      handlers.del(request, response);
       break;
     default:
       handlers.fourohfour(request, response);
@@ -68,4 +68,4 @@ function start(request, method) {
   console.log('Server has started.');
 }
 
-exports.start = start;
+exports.server = server;
