@@ -2,7 +2,7 @@
   "name": "http-single-resource",
   "version": "1.0.0",
   "description": "http single-resource server",
-  "main": "index.js",
+  "main": "httpSrvr.js",
   "scripts": {
     "test": "mocha"
   },
@@ -25,7 +25,9 @@
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "eslint": "^3.8.1",
-    "mocha": "^3.1.2"
+    "mkdirp": "^0.5.1",
+    "mocha": "^3.1.2",
+    "rimraf": "^2.5.4"
   },
   "dependencies": {
     "rimraf": "^2.5.4",
