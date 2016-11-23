@@ -2,7 +2,7 @@
   "name": "http-single-resource",
   "version": "1.0.0",
   "description": "http single-resource server",
-  "main": "server.js",
+  "main": "httpSrvr.js",
   "scripts": {
     "test": "mocha"
   },

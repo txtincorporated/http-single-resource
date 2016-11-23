@@ -2,7 +2,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 const assert = chai.assert;
-const server = require('../server');
+const server = require('../lib/http-server');
 
 const path = require('path');
 const rimraf = require('rimraf');
@@ -40,11 +40,10 @@ describe('API responds correctly to the four principal REST methods', () => {
   it('responds appropriately to GET directory requests', (done) => {
     
     request
-      .get('../lib/store')
+      .get('/lib/store')
       .then(res => {
-        let body = '';
-        body = res.body;
-        assert.equal(body.files, '');
+        let body = res.body;
+        assert.deepEqual(body, [ 'Life_on_the_Mississippi.json' ]);
         done();
       })
       .catch(done);
@@ -54,22 +53,25 @@ describe('API responds correctly to the four principal REST methods', () => {
   it('responds appropriately to POST requests', (done) => {
 
     request
-      .post('../lib/store')
+      .post('/lib/store')
       .send(testPost)
+      .catch(done);
+
+    request
+      .get('/lib/store')
       .then(res => {
-        let body = '';
-        body = res.body;
-        assert.equal(body.fileName, testName);
+        let body = res.body;
+        assert.deepEqual(body, [ 'Life_on_the_Mississippi.json', 'test_title_one.json' ]);
         done();
       })
       .catch(done);
 
   });
 
-  it('responds appropriately to GET file reqs', (done) => {
 
+  it('responds appropriately to GET file reqs', (done) => {
     request
-      .get('/store/' + testName + '.json')
+      .get('/lib/store/' + testName + '.json')
       .then(res => {
         let body = '';
         body = res.body;
@@ -83,7 +85,7 @@ describe('API responds correctly to the four principal REST methods', () => {
   it('responds appropriately to PUT requests', (done) => {
 
     request
-      .put('/store/' + testName + '.json')
+      .put('/lib/store/' + testName + '.json')
       .send(testPut)
       .then(res => {
         let body = '';
@@ -98,15 +100,15 @@ describe('API responds correctly to the four principal REST methods', () => {
   it('responds appropriately to DELETE requests', (done) => {
 
     request
-      .delete('/store/' + testName + '.json')
+      .delete('/lib/store/' + testName + '.json')
       .catch(done);
 
     request
-      .get('/store')
+      .get('/lib/store')
       .then(res => {
         let body = '';
         body = res.body;
-        assert.equal(body.files, '');
+        assert.deepEqual(body, [ 'Life_on_the_Mississippi.json' ]);
         done();
       })
       .catch(done);
